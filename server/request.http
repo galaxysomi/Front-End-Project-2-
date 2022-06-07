@@ -1,0 +1,7 @@
+POST http://localhost:3000/api/parent/login
+Content-Type: application/json
+
+{
+    "username" : "paret",
+    "password" : "parent"
+}

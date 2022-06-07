@@ -1,0 +1,36 @@
+
+.imgteacher{
+    display:flex; 
+    flex-direction: row; 
+    flex-wrap: wrap; 
+    padding-left: 120px; 
+    padding-right: 120px;
+    width: auto; 
+    max-width: 1500px; 
+    box-sizing: border-box;
+}
+
+.gallery-col{
+    max-width: 33.3333%;
+    flex-basis: 33.33333%;
+    margin-left: auto;
+    margin-right: auto; 
+    animation-delay: 1s;
+    transform: translate3d(0,0,0) scale(1);
+    opacity: 1!important; 
+    position: relative;
+    margin: 0;
+    padding: 0 15px 30px;
+    width: 100%;
+    box-sizing: border-box;
+    display: block;   
+}
+.box-text{
+    padding: 15px 15px 20px;
+    z-index: 1;
+    font-size: larger;
+    text-align: center;
+    width: 100%;
+    color: rgb(5, 7, 99);
+    font-weight: bold;
+}

@@ -17,21 +17,23 @@ function getActivityById(id) {
 function refreshPage() {
   window.location.reload();
 }
-console.log(localStorage.getItem("token"));
+
+
+
+
 function findActivity() {
   axios.get("http://localhost:8082/getActivities", {
 
     headers: { Authorization: localStorage.getItem("token") }
   })  // dien link api vao
     .then((activities) => {
-      console.log("test log", activities.data);
       let info = " ";
       $.each(activities.data.data, function (index, value) {
 
 
         info += `
           <tr>
-           <td> ${new Date(value.date).getDate()}/${new Date(value.date).getMonth() + 1}/${new Date(value.date).getFullYear()} </td>
+           
             <td> ${value.activityTime}  </td>
             <td> ${value.activityName}</td>  
             <td> ${value.activityContent}</td>                        
@@ -97,10 +99,12 @@ function deleteActivity() {
     })
 }
 
-$(document).ready(function () {
-  findActivity();
-  $('#menuTable').DataTable();
-});
+// $(document).ready(function () {
+//   findActivity();
+//   $('#menuTable').DataTable();
+// });
+
+$(document).ready(findActivity());
 
 function changeAcivityByID() {
   const id = document.getElementById("invisibleID").value

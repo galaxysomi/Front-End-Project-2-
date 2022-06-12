@@ -1,12 +1,15 @@
 function getMenuById(id) {
-  axios.get('http://localhost:8082/getFoodMenu' + id, {
-    // headers: { Authorization: 'Bearer ' + localStorage.token }
+  axios.get('http://localhost:8082/foodMenu/getMenuFoodByID', {
+    headers: { Authorization: localStorage.getItem("token") },
+    params: { foodMenuID: id }
+
   }).then(data => {
+    console.log(data);
     //document.getElementById("changeDate").value = data.data.date ;
-    document.getElementById("changeMonChinh").value = data.data.date_food;
-    document.getElementById("changeMonDiemTam").value = data.data.food_list;
-    document.getElementById("changeQuaChieu").value = data.data.quaChieu;
-    document.getElementById("invisibleID").value = food_menu_id;
+    document.getElementById("changeMonChinh").value = data.data.breakfastFoodList;
+    document.getElementById("changeMonDiemTam").value = data.data.lunchFoodList;
+    document.getElementById("changeQuaChieu").value = data.data.dinnerFoodList;
+    document.getElementById("invisibleID").value = data.data.foodMenuID;
 
 
   })
@@ -15,7 +18,7 @@ function getMenuById(id) {
 function findMenu() {
   let timeStart = document.getElementById("timeStart").value;
   let timeEnd = document.getElementById("timeEnd").value;
-  axios.get('http://localhost:8082/foodMenu/getFoodMenu', {
+  axios.get('http://localhost:8082/foodMenu/getFoodMenu/', {
     headers: { Authorization: localStorage.getItem("token") },
     params: {
       timeStart: timeStart,
@@ -28,16 +31,13 @@ function findMenu() {
       $.each(foods.data.data, function (index, value) {
         info += `
             <tr>            
-              <td> ${new Date(value.date).getDay() + 1} </td>
-              <td> ${value.food}</td>            
-              <td> ${value.foodList} </td>
-              <td> ${value.food_list} </td>                        
-              <td> ${value.quaChieu}</td>               
+              <td> ${value.dateFood}</td>            
+              <td> ${value.breakfastFoodList} </td>
+              <td> ${value.lunchFoodList} </td>                        
+              <td> ${value.dinnerFoodList}</td>               
               <td>
-              <button onClick = "getMenuById('${value._id}')"  style="margin-top: 20px;" type="button" class="btn btn-primary" data-toggle="modal" data-target="#changeFoodMenu">
-                        Sửa
-                      </button>
-                      <button onClick = "getMenuById('${value._id}')"  style="margin-top: 20px;" type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteActivity">
+                      <button onClick = " getMenuById('${value.foodMenuID}')"  
+                      style="margin-top: 20px;" type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteActivity">
                         Xóa
                       </button>  
               </td>            
@@ -69,8 +69,9 @@ $(document).ready(function () {
 
 function deleteMenu() {
   const id = document.getElementById("invisibleID").value
-  axios.delete('http://localhost:3000/api/admin/foodmenu/' + id, {
-    headers: { Authorization: 'Bearer ' + localStorage.token }
+  axios.delete('http://localhost:8082/foodMenu/deleteFoodMenu', {
+    headers: { Authorization: localStorage.getItem("token") },
+    params: { foodMenuID: id }
   })
     .then((rs) => {
       console.log(rs);

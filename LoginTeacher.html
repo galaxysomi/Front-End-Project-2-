@@ -172,7 +172,7 @@
         <button type="button" onClick="callApi()"> Đăng nhập ngay</button>
 
         <div class="social">
-            
+
         </div>
     </form>
 </body>
@@ -185,20 +185,20 @@
     function callApi() {
         console.log(document.getElementById('username').value);
 
-        let host = 'http://localhost:3000'
-        axios.post(host + '/api/teacher/login', {
+        let host = 'http://localhost:8082'
+        axios.post(host + '/login', {
             username: document.getElementById('username').value,
             password: document.getElementById('password').value,
         }, {
             headers: { Authorization: 'Bearer ' + localStorage.token }
         }
         ).then(rs => {
-            if (rs.data.status === "ok") {
+            if (true) {
                 localStorage.setItem('token', rs.data.token);
                 window.location = "/template/PageTeacher/QLHocSinh/QLHocSinh.html"
                 console.log('Login OK, hello parrent')
                 console.log(localStorage.token)
-            } else if (rs.data.msg==="teacher not found") {
+            } else if (rs.data.msg === "teacher not found") {
                 alert("Tên đăng nhập hoặc mật khẩu không đùng")
             }
         })

@@ -1,28 +1,17 @@
-function findTeacher() {
-    axios.get("http://localhost:8082/admin/getAllTeachers", {
+function findClass() {
+    axios.get("http://localhost:8082/admin/getClasses", {
         headers: { Authorization: localStorage.getItem("token") }
     })  // dien link api vao
-        .then((teacher) => {
-            console.log(teacher);
+        .then((data) => {
+            console.log(data);
             let info = " ";
-            $.each(teacher.data.data, function (index, value) {
+            $.each(data.data.data, function (index, value) {
                 info += `
             <tr>
               <td> ${index + 1} </td>
-              <td> ${value.teacherName} </td>
-              <td> ${value.teacherGender}</td>
-              <td> ${value.teacherDob}</td>
-              <td> ${value.teacherPhoneNumber}</td>
-              <td> ${value.teacherAddress}</td>
-              <td> ${value.teacherEmail}</td>
-              <td> ${value.teacherAddress}</td>
-              <td> ${value.subject}</td>
-              <td>
-              <button onClick="getTeacherById('${value.parent_id}')" style="margin-top: 20px;" type="button" class="btn btn-primary" data-toggle="modal" data-target="#changeTeacher">
-              Sửa
-              </button>
-              <button type="button" onClick = "deleteTeacher('${value.parent_id}')"style="margin-top: 20px;" type="button" class="btn btn-danger">Xóa</button>  
-              </td>                                
+              <td> ${value.parentName} </td>
+              <td> ${value.className}</td>
+              <td> ${value.parentAge}</td>                        
             </tr>            
              `
             });
@@ -30,7 +19,7 @@ function findTeacher() {
         });
 }
 
-$(document).ready(findTeacher());
+$(document).ready(findClass());
 
 
 function refreshPage() {
@@ -79,16 +68,17 @@ function deleteTeacher(id) {
         })
 }
 
-function getTeacherById(id) {
-    axios.get('http://localhost:8082/admin/getAllTeachers' + id, {
-        headers: { Authorization: 'Bearer ' + localStorage.token }
+function getClassByID(id) {
+    axios.get('http://localhost:8082/admin/getClasses' + id, {
+        headers: { Authorization: localStorage.getItem("token") }
     }).then(data => {
-        document.getElementById("changeName").value = data.data.teacherName;
-        document.getElementById("changeSex").value = data.data.teacherGender;
-        document.getElementById("changeClass").value = data.data.subject;
+        document.getElementById("changeName").value = data.data.class_Name;
+        // document.getElementById("changeAge").value 
+        document.getElementById("changeSex").value = data.data.parent_age;
+        document.getElementById("changeClass").value = data.data.className;
         document.getElementById("changeNumber").value = data.data.parent_address;
-        document.getElementById("changeNumStudent").value = data.data.numStudent;
-        document.getElementById("changePassword").value = data.data.password;
+        document.getElementById("changeNumStudent").value = data.data.parentEmail;
+        document.getElementById("changePassword").value = data.data.parentEmail;
         document.getElementById("invisibleID").value = teacher_ID;
     })
 }

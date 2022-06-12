@@ -80,23 +80,24 @@ function deleteTeacher(id) {
 }
 
 function getTeacherById(id) {
-    axios.get('http://localhost:8082/admin/getAllTeachers' + id, {
-        headers: { Authorization: 'Bearer ' + localStorage.token }
+    axios.get('http://localhost:8082/admin/getTeacher/', {
+        headers: { Authorization: 'Bearer ' + localStorage.token },
+        params: { teacherID: id }
     }).then(data => {
-        document.getElementById("changeName").value = data.data.teacherName;
-        document.getElementById("changeSex").value = data.data.teacherGender;
-        document.getElementById("changeClass").value = data.data.subject;
-        document.getElementById("changeNumber").value = data.data.parent_address;
-        document.getElementById("changeNumStudent").value = data.data.numStudent;
-        document.getElementById("changePassword").value = data.data.password;
-        document.getElementById("invisibleID").value = teacher_ID;
+        document.getElementById("changeName").value = data.data.data.teacherName;
+        document.getElementById("changeSex").value = data.data.data.teacherGender;
+        document.getElementById("changeClass").value = data.data.data.subject;
+        document.getElementById("changeNumber").value = data.data.data.parent_address;
+        document.getElementById("changeNumStudent").value = data.data.data.numStudent;
+        document.getElementById("changePassword").value = data.data.data.password;
+        document.getElementById("invisibleID").value = data.data.data.teacher_ID;
     })
 }
 
 function changeTeacherByID() {
     const id = document.getElementById("invisibleID").value;
     console.log(id);
-    axios.put('http://localhost:3000/api/admin/teacher/' + id, {
+    axios.put('http://localhost:8082/admin/updateTeacher', {
         name: document.getElementById("changeName").value,
         sex: document.getElementById("changeSex").value,
         className: document.getElementById("changeClass").value,
@@ -104,7 +105,9 @@ function changeTeacherByID() {
         phoneNumber: document.getElementById("changeNumber").value,
         numStudent: document.getElementById("changeNumStudent").value
     }, {
-        headers: { Authorization: 'Bearer ' + localStorage.token }
+        headers: { Authorization: 'Bearer ' + localStorage.token },
+        params: { teacherID: id }
+
     })
         .then((rs) => {
             console.log(rs.data);

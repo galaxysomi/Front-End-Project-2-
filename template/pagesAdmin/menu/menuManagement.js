@@ -4,12 +4,13 @@ function getMenuById(id) {
     params: { foodMenuID: id }
 
   }).then(data => {
-    console.log(data);
+    console.log(data.data.data);
+    console.log(data.data.data.foodMenuID);
     //document.getElementById("changeDate").value = data.data.date ;
-    document.getElementById("changeMonChinh").value = data.data.breakfastFoodList;
+    document.getElementById("changeMonChinh").value = data.data.data.breakfastFoodList;
     document.getElementById("changeMonDiemTam").value = data.data.lunchFoodList;
     document.getElementById("changeQuaChieu").value = data.data.dinnerFoodList;
-    document.getElementById("invisibleID").value = data.data.foodMenuID;
+    document.getElementById("invisibleID").value = data.data.data.foodMenuID;
 
 
   })
@@ -36,7 +37,7 @@ function findMenu() {
               <td> ${value.lunchFoodList} </td>                        
               <td> ${value.dinnerFoodList}</td>               
               <td>
-                      <button onClick = " getMenuById('${value.foodMenuID}')"  
+                      <button onClick = "getMenuById('${value.foodMenuID}')"  
                       style="margin-top: 20px;" type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteActivity">
                         Xóa
                       </button>  
@@ -68,7 +69,7 @@ $(document).ready(function () {
 });
 
 function deleteMenu() {
-  const id = document.getElementById("invisibleID").value
+  const id = document.getElementById("invisibleID").value;
   axios.delete('http://localhost:8082/foodMenu/deleteFoodMenu', {
     headers: { Authorization: localStorage.getItem("token") },
     params: { foodMenuID: id }
@@ -117,6 +118,8 @@ function themMoiOnClick() {
 
 function deleteMenuOnClink(id) {
   deleteMenu(id);
+  alert("Xóa thành công");
+  refreshPage()
 }
 
 

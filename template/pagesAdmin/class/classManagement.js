@@ -11,7 +11,13 @@ function findClass() {
               <td> ${index + 1} </td>
               <td> ${value.parentName} </td>
               <td> ${value.className}</td>
-              <td> ${value.parentAge}</td>                        
+              <td> ${value.parentAge}</td>      
+              <td>
+              <button onClick="getTeacherById('${value.parent_id}')" style="margin-top: 20px;" type="button" class="btn btn-primary" data-toggle="modal" data-target="#changeTeacher">
+              Sửa
+              </button>
+              <button type="button" onClick = "deleteTeacher('${value.parent_id}')"style="margin-top: 20px;" type="button" class="btn btn-danger">Xóa</button>  
+              </td>                   
             </tr>            
              `
             });

@@ -18,10 +18,12 @@ function findTeacher() {
               <td> ${value.teacherAddress}</td>
               <td> ${value.subject}</td>
               <td>
-              <button onClick="getTeacherById('${value.parent_id}')" style="margin-top: 20px;" type="button" class="btn btn-primary" data-toggle="modal" data-target="#changeTeacher">
+              <button onClick="getTeacherById('${value.teacherID}')" style="margin-top: 20px;" type="button" class="btn btn-primary" data-toggle="modal" data-target="#changeTeacher">
               Sửa
               </button>
-              <button type="button" onClick = "deleteTeacher('${value.parent_id}')"style="margin-top: 20px;" type="button" class="btn btn-danger">Xóa</button>  
+              <button type="button" onClick = "deleteTeacherOnClick('${value.teacherID}')"style="margin-top: 20px;" type="button" class="btn btn-danger">
+              Xóa
+              </button>  
               </td>                                
             </tr>            
              `
@@ -32,6 +34,11 @@ function findTeacher() {
 
 $(document).ready(findTeacher());
 
+function deleteTeacherOnClick(id) {
+    deleteTeacher(id);
+    alert("Xóa thành công");
+    refreshPage()
+}
 
 function refreshPage() {
     window.location.reload();
@@ -39,33 +46,37 @@ function refreshPage() {
 
 
 function addTeacher() {
-    axios.post('http://localhost:3000/api/admin/teacher', {
-        name: document.getElementById("name").value,
-        birth: document.getElementById("birth").value,
-        sex: document.getElementById("sex").value,
-        username: document.getElementById("uername").value,
-        password: document.getElementById("password").value,
-        password2: document.getElementById("password2").value,
-        className: document.getElementById("className").value,
-        phoneNumber: document.getElementById("phoneNumber").value,
-        numStudent: document.getElementById("numStudent").value,
+
+
+    axios.post('http://localhost:8082/admin/addNewTeacher', {
+        teacherName: document.getElementById("Name").value,
+        teacherDob: document.getElementById("Dob").value,
+        teacherGender: document.getElementById("Gender").value,
+        subject: document.getElementById("Subject").value,
+        teacherPhoneNumber: document.getElementById("Number").value,
+        teacherAddress: document.getElementById("Address").value,
+        teacherEmail: document.getElementById("Mail").value,
     }, {
-        headers: { Authorization: 'Bearer ' + localStorage.token }
+        headers: { Authorization: 'Bearer ' + localStorage.token },
+
+
     })
         .then((rs) => {
             console.log(rs.data);
             if (rs.data.success) {
                 alert(rs.data.message);
             } else {
-                alert(rs.data.message);
+                alert(rs.data.message)
             }
             refreshPage();
         })
 }
 
 function deleteTeacher(id) {
-    axios.delete('http://localhost:3000/api/admin/teacher/' + id, {
-        headers: { Authorization: 'Bearer ' + localStorage.token }
+    // const id = document.getElementById("invisibleID").value;
+    axios.delete('http://localhost:8082/admin/deleteTeacher/', {
+        headers: { Authorization: localStorage.getItem("token") },
+        params: { teacherID: id }
     })
         .then((rs) => {
             alert('Bạn có muốn xóa giáo viên này không?')
@@ -84,13 +95,15 @@ function getTeacherById(id) {
         headers: { Authorization: 'Bearer ' + localStorage.token },
         params: { teacherID: id }
     }).then(data => {
+        console.log(data.data.data);
         document.getElementById("changeName").value = data.data.data.teacherName;
-        document.getElementById("changeSex").value = data.data.data.teacherGender;
-        document.getElementById("changeClass").value = data.data.data.subject;
-        document.getElementById("changeNumber").value = data.data.data.parent_address;
-        document.getElementById("changeNumStudent").value = data.data.data.numStudent;
-        document.getElementById("changePassword").value = data.data.data.password;
-        document.getElementById("invisibleID").value = data.data.data.teacher_ID;
+        document.getElementById("changeDob").value = data.data.data.teacherDob;
+        document.getElementById("changeSubject").value = data.data.data.subject;
+        document.getElementById("changeNumber").value = data.data.data.teacherPhoneNumber;
+        document.getElementById("changeGender").value = data.data.data.teacherGender;
+        document.getElementById("changeAddress").value = data.data.data.teacherAddress;
+        document.getElementById("changeMail").value = data.data.data.teacherEmail;
+        document.getElementById("invisibleID").value = data.data.data.teacherID;
     })
 }
 
@@ -98,12 +111,14 @@ function changeTeacherByID() {
     const id = document.getElementById("invisibleID").value;
     console.log(id);
     axios.put('http://localhost:8082/admin/updateTeacher', {
-        name: document.getElementById("changeName").value,
-        sex: document.getElementById("changeSex").value,
-        className: document.getElementById("changeClass").value,
-        password: document.getElementById("changePassword").value,
-        phoneNumber: document.getElementById("changeNumber").value,
-        numStudent: document.getElementById("changeNumStudent").value
+        teacherID: id,
+        teacherName: document.getElementById("changeName").value,
+        teacherDob: document.getElementById("changeDob").value,
+        teacherGender: document.getElementById("changeGender").value,
+        subject: document.getElementById("changeSubject").value,
+        teacherPhoneNumber: document.getElementById("changeNumber").value,
+        teacherAddress: document.getElementById("changeAddress").value,
+        teacherEmail: document.getElementById("changeMail").value,
     }, {
         headers: { Authorization: 'Bearer ' + localStorage.token },
         params: { teacherID: id }

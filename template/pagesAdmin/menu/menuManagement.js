@@ -38,7 +38,7 @@ function findMenu() {
               <td> ${value.dinnerFoodList}</td>               
               <td>
                       <button onClick = "getMenuById('${value.foodMenuID}')"  
-                      style="margin-top: 20px;" type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteActivity">
+                      style="margin-top: 20px;" type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteFood">
                         Xóa
                       </button>  
               </td>            
@@ -116,11 +116,7 @@ function themMoiOnClick() {
 
 }
 
-function deleteMenuOnClink(id) {
-  deleteMenu(id);
-  alert("Xóa thành công");
-  refreshPage()
-}
+
 
 
 

@@ -1,31 +1,36 @@
 
-const host = 'http://localhost:3000'
-axios.get(host + '/api/teacher/student', {
-  headers: { Authorization: 'Bearer ' + localStorage.token }
-}).then(result => {
-  if (result.data.status === 'ok') {
-    console.log(result);
-    let students = result.data.students;
+async function findStudent() {
+  const host = 'http://localhost:8082/'
+  let num = 0;
+  await axios.get(host + 'student/allStudentInfor', {
+    headers: { Authorization: localStorage.getItem("token") },
+  }).then(result => {
+
+
+    let students = result.data.data;
     let info = " ";
-    $.each(students, function (index, value) {
-      info += `
+    $.each(students, async function (index, value) {
+      await getParentByID(value.parentID).then(parent => {
+
+        num++;
+        info += `
       <tr>
-            <td> ${index + 1}</td>
+            <td> ${num}</td>
 
-            <td> ${value.name}   </td>
-            <td> ${convertDateToString(value.birth)}  </td>                                  
-            <td> ${value.sex}  </td>
+            <td> ${value.studentName}   </td>
+            <td> ${convertDateToString(value.dateOfBirth)}    </td>
+            <td>  ${convertGender(value.studentGender)}    </td>
+            <td> ${parent.parentName} </td>
+            <td> ${convertDateToString(parent.parentDob)}   </td>
+            <td> ${parent.parentEmail}    </td>
+            <td>   ${convertGender(parent.parentGender)}  </td>
 
-            <td> ${value.parent.name}  </td>  
-            <td> ${convertDateToString(value.parent.birth)}  </td>  
-            <td> ${value.parent.phoneNumber}  </td>  
             
-            <td> ${value.parent.sex}  </td>  
             <td>
-            <button onClick="getStudentById('${value._id}')" style="margin-top: 50px;  margin-bottom: 50px;" type="button" class="btn btn-primary" data-toggle="modal" data-target="#changeStudent">
+            <button onClick="getStudentById('${value.studentID}')" style="margin-top: 50px;  margin-bottom: 50px;" type="button" class="btn btn-primary" data-toggle="modal" data-target="#changeStudent">
             Sửa
           </button>
-          <button onClick="getStudentById('${value._id}')" style="margin-top: 50px;  margin-bottom: 50px;" type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteStudent">
+          <button onClick="deleteStudentByID('${value.studentID}')" style="margin-top: 50px;  margin-bottom: 50px;" type="button" class="btn btn-danger">
             Xóa
           </button>
             </td>                                                                  
@@ -33,32 +38,40 @@ axios.get(host + '/api/teacher/student', {
       
       
             `;
+      })
+      $('#information').html(info);
     });
-    $('#information').html(info);
 
-  }
-})
+
+  })
+}
+
+$(document).ready(findStudent());
+
+async function getParentByID(id) {
+  const res = await axios.get("http://localhost:8082/parent/getParent/", {
+    headers: { Authorization: localStorage.getItem("token") },
+    params: { parentID: id }
+  })
+  let data = await res.data.data;
+  return data;
+
+}
 
 function getStudentById(id) {
-  console.log("123");
+
   console.log(id);
-  axios.get('http://localhost:3000/api/teacher/student/' + id, {
-    headers: { Authorization: 'Bearer ' + localStorage.token }
+  axios.get('http://localhost:8082/student/getStudentInfor', {
+    headers: { Authorization: 'Bearer ' + localStorage.token },
+    params: { studentID: id }
   }).then(data => {
-    console.log(data.data.student);
-    let student = data.data.student;
-    let parent = student.parent;
-    document.getElementById("changeName").value = student.name;
-    document.getElementById("changeSex").value = student.sex;
-    document.getElementById("changeAddress").value = parent.address;
-    document.getElementById("changeNameParent").value = student.parent.name;
-    document.getElementById("changeSexParent").value = parent.sex;
-    document.getElementById("changePhoneNumber").value = parent.phoneNumber;
-    document.getElementById("changeUsername").value = parent.username;
-    document.getElementById("changePassword").value = parent.password;
-
-
-    document.getElementById("invisibleID").value = id;
+    console.log(data.data.data);
+    document.getElementById("changeStudentName").value = data.data.data.studentName;
+    document.getElementById("changeStudentGender").value = data.data.data.dateOfBirth;
+    document.getElementById("changeGender").value = convertGender(data.data.data.studentGender);
+    document.getElementById("changeStudentBirth").value = convertDateToString(data.data.data.dateOfBirth);
+    localStorage.setItem("studentID", data.data.data.studentID);
+    localStorage.setItem("parentID", data.data.data.parentID);
   })
 }
 
@@ -70,77 +83,47 @@ function refreshPage() {
 
 
 function changeStudentById() {
-  console.log(localStorage.token);
-  const id = document.getElementById("invisibleID").value;
-  console.log(id);
-  axios.put('http://localhost:3000/api/teacher/student/' + id, {
-    sInfo: {
-      sName: document.getElementById("changeName").value,
-      sSex: document.getElementById("changeSex").value,
-      sBirth: document.getElementById("changeBirth").value,
-    },
-    pInfo: {
-      pName: document.getElementById("changeNameParent").value,
-      pBirth: document.getElementById("changeBirthParent").value,
-      pAddress: document.getElementById("changeAddress").value,
-      pSex: document.getElementById("changeSexParent").value,
-      pPhoneNumber: document.getElementById("changePhoneNumber").value,
-      pUserName: document.getElementById("changeUsername").value,
-      pPassword: document.getElementById("changePassword").value,
-    }
+  axios.put('http://localhost:8082/student/changeStudentInfor', {
+    studentID: localStorage.getItem("studentID"),
+    studentName: document.getElementById("changeStudentName").value,
+    dateOfBirth: document.getElementById("changeStudentBirth").value,
+    studentGender: document.getElementById("changeStudentGender").value,
+    classID: document.getElementById("changeClass").value,
+    parentID: localStorage.getItem("parentID"),
   }, {
     headers: { Authorization: 'Bearer ' + localStorage.token }
   }).then(rs => {
-    if (rs.data.status == 'ok') {
-      alert(rs.data.msg);
-      refreshPage()
-    } else {
+    if (true) {
       alert(rs.data.msg);
       refreshPage()
     }
 
   })
 }
+function addNewStudent() {
 
-function addStudent() {
-  let date = new Date();
-  var formData = new FormData();
-  var imagefile = document.querySelector('#file');
-  formData.append("file", imagefile.files[0]);
+  axios.post("http://localhost:8082/student/addNewStudent", {
+    studentName: document.getElementById("studentName").value,
+    classID: document.getElementById("classID").value,
+    dateOfBirth: document.getElementById("dateOfBirth").value,
+    studentGender: document.getElementById("studentGender").value,
+    parentName: document.getElementById("parentName").value,
+    parentDob: document.getElementById("parentDob").value,
+    parentAddress: document.getElementById("parentAddress").value,
+    parentEmail: document.getElementById("parentEmail").value,
+    parentGender: document.getElementById("parentGender").value
+  },
+    {
+      headers: { Authorization: localStorage.getItem("token") },
 
-  axios.post("https://api.bandeck.com/v1/user/storage/upload?access_token=w4fCq2xrZsKYwpLCm2zCmMKUbMKWaW3CmmjDhmhuwpxuwp1waWrDhcKUwpfCmcKdwpQ=&name=" + date, formData, {
-    headers: { "Content-Type": "multipart/form-data" },
-  }).then((response) => {
-    console.log(response);
-
-    let sInfo = {
-      sName: document.getElementById("name").value,
-      sSex: document.getElementById("sex").value,
-      sBirth: document.getElementById("birth").value,
-      sAvatar: "https://cdn.bandeck.com/" + response?.data.data.id
-    }
-
-    let pInfo = {
-      pName: document.getElementById("nameParent").value,
-      pBirth: document.getElementById("birthParent").value,
-      pAddress: document.getElementById("address").value,
-      pSex: document.getElementById("sexParent").value,
-      pPhoneNumber: document.getElementById("phoneNumber").value,
-      pUserName: document.getElementById("username").value,
-      pPassword: document.getElementById("password").value,
-    }
-
-    sendStudent(
-      sInfo,
-      pInfo
-    ).then((result) => {
-      if (result.status === "success") {
-        alert("Adding successful")
+    }).then((rs) => {
+      if (true) {
+        alert(rs.data.message);
+        refreshPage();
       } else {
-        alert(result?.msg)
-      };
+        alert(rs.data.message);
+      }
     })
-  })
 }
 
 function sendStudent(sInfo, pInfo) {
@@ -162,21 +145,18 @@ function sendStudent(sInfo, pInfo) {
 
 
 
-function deleteStudentByID() {
-  const id = document.getElementById("invisibleID").value;
-  axios.delete('http://localhost:3000/api/teacher/student/' + id, {
-    headers: { Authorization: 'Bearer ' + localStorage.token }
+function deleteStudentByID(id) {
+  axios.delete('http://localhost:8082/student/deleteStudent', {
+    headers: { Authorization: 'Bearer ' + localStorage.token },
+    params: { studentID: id }
   }).then(rs => {
-    if (rs.data.status == "ok") {
-      alert(rs.data.msg)
-      refreshPage()
-    } else {
-      alert(rs.data.msg)
+    if (true) {
+      alert("Xoá học sinh thành công !")
       refreshPage()
     }
   })
 }
-
+console.log(localStorage.getItem("token"));
 function clearFieldAdd() {
   document.getElementById("name").value = ''
   document.getElementById("sex").value = ''
@@ -195,4 +175,8 @@ function convertDateToString(date) {
   var curr_month = d.getMonth() + 1; //Months are zero based
   var curr_year = d.getFullYear();
   return curr_date + "/" + curr_month + "/" + curr_year
+}
+function convertGender(gender) {
+  if (gender == 0) return "Nam";
+  else return "Nữ";
 }

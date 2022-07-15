@@ -10,8 +10,8 @@ function findParents() {
           <tr>
             <td> ${index + 1} </td>
             <td> ${value.parentName} </td>
-            <td> ${value.parentAge}</td>
-            <td> ${value.parentAge}</td>
+            <td> ${convertGender(value.parentGender)}</td>
+            <td> ${convertDateToString(value.parentDob)}</td>
             <td> ${value.parentEmail}</td>
             <td> ${value.parentAddress}</td>
                                            
@@ -24,6 +24,17 @@ function findParents() {
 
 $(document).ready(findParents());
 
+function convertDateToString(date) {
+  const d = new Date(date)
+  var curr_date = d.getDate();
+  var curr_month = d.getMonth() + 1; //Months are zero based
+  var curr_year = d.getFullYear();
+  return curr_date + "/" + curr_month + "/" + curr_year
+}
+function convertGender(gender) {
+  if (gender == "0") return "Nam";
+  else return "Nữ";
+}
 
 function refreshPage() {
   window.location.reload();

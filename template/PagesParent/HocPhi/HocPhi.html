@@ -24,9 +24,9 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.24.0/axios.js"
-        integrity="sha512-RT3IJsuoHZ2waemM8ccCUlPNdUuOn8dJCH46N3H2uZoY7swMn1Yn7s56SsE2UBMpjpndeZ91hm87TP1oU6ANjQ=="
-        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-      <!-- end of axios cdn-->
+    integrity="sha512-RT3IJsuoHZ2waemM8ccCUlPNdUuOn8dJCH46N3H2uZoY7swMn1Yn7s56SsE2UBMpjpndeZ91hm87TP1oU6ANjQ=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <!-- end of axios cdn-->
 
 </head>
 
@@ -35,10 +35,8 @@
     <!-- partial:../../partials/_sidebar.html -->
     <nav class="sidebar sidebar-offcanvas" id="sidebar">
       <div class="sidebar-brand-wrapper d-none d-lg-flex align-items-center justify-content-center fixed-top">
-        <a class="sidebar-brand brand-logo" href="#"><img src="../../assets/images/logo.png"
-            alt="logo" /></a>
-        <a class="sidebar-brand brand-logo-mini" href="#"><img src="../../assets/images/logo.png"
-            alt="logo" /></a>
+        <a class="sidebar-brand brand-logo" href="#"><img src="../../assets/images/logo.png" alt="logo" /></a>
+        <a class="sidebar-brand brand-logo-mini" href="#"><img src="../../assets/images/logo.png" alt="logo" /></a>
       </div>
       <ul class="nav">
         <li class="nav-item profile">
@@ -112,45 +110,30 @@
           </a>
         </li>
         <li class="nav-item menu-items">
-          <a class="nav-link" href="../../PagesParent/SoTheoDoi/SoTheoDoi.html">
-            <span class="menu-icon">
-              <i class="mdi mdi-table-large"></i>
-            </span>
-            <span class="menu-title">Sổ theo dõi</span>
-          </a>
-        </li>
-        <li class="nav-item menu-items">
           <a class="nav-link" href="../../PagesParent/HocPhi/HocPhi.html">
             <span class="menu-icon">
               <i class="mdi mdi-chart-bar"></i>
             </span>
             <span class="menu-title">Học phí</span>
           </a>
-      
-      <li class="nav-item menu-items">
-        <a class="nav-link" href="../../PagesParent/XemTKB/XemTKB.html">
-          <span class="menu-icon">
-            <i class="mdi mdi-table-large"></i>
-          </span>
-          <span class="menu-title">Xem TKB</span>
-        </a>
-      </li>
-      <li class="nav-item menu-items">
-        <a class="nav-link" href="../XemMenu/XemMenu.html">
-          <span class="menu-icon">
-            <i class="mdi mdi-table-large"></i>
-          </span>
-          <span class="menu-title">Xem Menu</span>
-        </a>
-      </li>
-      <li class="nav-item menu-items">
-        <a class="nav-link" href="../HomThu/ThongBao.html">
-          <span class="menu-icon">
-            <i class="mdi mdi-table-large"></i>
-          </span>
-          <span class="menu-title">Thông Báo</span>
-        </a>
-      </li>
+
+        <li class="nav-item menu-items">
+          <a class="nav-link" href="../../PagesParent/XemTKB/XemTKB.html">
+            <span class="menu-icon">
+              <i class="mdi mdi-table-large"></i>
+            </span>
+            <span class="menu-title">Xem TKB</span>
+          </a>
+        </li>
+        <li class="nav-item menu-items">
+          <a class="nav-link" href="../XemMenu/XemMenu.html">
+            <span class="menu-icon">
+              <i class="mdi mdi-table-large"></i>
+            </span>
+            <span class="menu-title">Xem Menu</span>
+          </a>
+        </li>
+
     </nav>
     <!-- partial -->
     <div class="container-fluid page-body-wrapper">
@@ -165,8 +148,8 @@
             <span class="mdi mdi-menu"></span>
           </button>
           <ul class="navbar-nav navbar-nav-right">
-              
-              
+
+
             <li class="nav-item dropdown">
               <a class="nav-link" id="profileDropdown" href="#" data-toggle="dropdown">
                 <div class="navbar-profile">
@@ -175,14 +158,15 @@
                   <i class="mdi mdi-menu-down d-none d-sm-block"></i>
                 </div>
               </a>
-              <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="profileDropdown">
+              <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list"
+                aria-labelledby="profileDropdown">
                 <a class="nav-link" href="../../../index.html">
                   <span class="menu-icon">
                     <i class=""></i>
                   </span>
-                  <span type ="button" onclick="deleteItem()" class="menu-title">Đăng xuất</span>
+                  <span type="button" onclick="deleteItem()" class="menu-title">Đăng xuất</span>
                 </a>
-              </a>
+                </a>
             </li>
           </ul>
           <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button"
@@ -195,17 +179,13 @@
       <div class="main-panel">
         <div class="content-wrapper">
           <div class="page-header">
-           
-            <form>
-              <label for="birthday">Nhập tháng : </label>
-              <input type="month" style="border-radius: 7px;" id="tuitionMonth" name="">
-              <button style="border-radius: 5px;" type="button" onclick="getTuitionByMonth()" class="btn btn-primary">Submit</button>
-            </form>                                  
+
+
           </div>
           <div class="row">
             <div class="col-lg-12 grid-margin stretch-card">
               <div class="card">
-                <div class="card-body">                 
+                <div class="card-body">
                   </p>
                   <div class="table-responsive">
                     <table class="table table-dark">
@@ -213,15 +193,10 @@
                         <tr>
                           <th> Tháng </th>
                           <th> Họ tên </th>
-                          
-                          <th> Nghỉ có phép </th>
-                          <th> Nghỉ không phép</th>
-                          <th> Buổi trông muộn(5h30-6h30)</th>
-                          <th> Buổi trông muộn(Sau 6h30)</th>
                           <th> Học phí </th>
                         </tr>
                       </thead>
-                      <tbody id="tuitionTable">                       
+                      <tbody id="tuitionTable">
                       </tbody>
                     </table>
                   </div>
@@ -231,7 +206,7 @@
           </div>
         </div>
         <!-- content-wrapper ends -->
-        
+
         <!-- partial -->
       </div>
       <!-- main-panel ends -->
@@ -257,21 +232,21 @@
   <!-- End custom js for this page -->
 
   <script src="../../assets/vendors/jquery/jquery-3.2.1.min.js"></script>
-      <!--===============================================================================================-->
-        <script src="../../assets/vendors/bootstrap1/js/bootstrap.js"></script>
-        <script src="../../assets/vendors/bootstrap1/js/bootstrap.min.js"></script>
-      <!--===============================================================================================-->
-        <script src="../../assets/vendors/select2/select2.min.js"></script>
+  <!--===============================================================================================-->
+  <script src="../../assets/vendors/bootstrap1/js/bootstrap.js"></script>
+  <script src="../../assets/vendors/bootstrap1/js/bootstrap.min.js"></script>
+  <!--===============================================================================================-->
+  <script src="../../assets/vendors/select2/select2.min.js"></script>
 
-  <script src="./hocphi.js"> 
-  
-   
+  <script src="./hocphi.js">
+
+
   </script>
-   <script> 
+  <script>
     function deleteItem() {
       localStorage.removeItem("token");
     }
-    </script>
+  </script>
 </body>
 
 </html>

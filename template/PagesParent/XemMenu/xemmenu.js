@@ -1,25 +1,37 @@
-function findMenu() {
-  axios.get('http://localhost:3000/api/parent/foodmenu', {
-    headers: { Authorization: 'Bearer ' + localStorage.token }
+
+function findMenu(id) {
+  axios.get('http://localhost:8082/foodMenu/getMenuFoodByID', {
+    headers: { Authorization: 'Bearer ' + localStorage.token },
+    params: { foodMenuID: id }
   })
     .then((x) => {
-      console.log(x);
+      console.log(x.data);
+      let value = x.data.data;
       let info = " ";
-      $.each(x.data, function (index, value) {
-        info += `
+      console.log('check>>>', value.breakfastFoodList)
+
+      info += `
         <tr>            
-          <td> ${new Date(value.date).getDay() + 1} </td>
-          <td> ${new Date(value.date).getDate()}/${new Date(value.date).getMonth() + 1}/${new Date(value.date).getFullYear()} </td>            
-          <td> ${value.monChinh} </td>
-          <td> ${value.monDiemTam}   </td>                        
-          <td> ${value.quaChieu}</td>                        
+          
+          <td> ${convertDateToString(value.dateFood)} </td>            
+          <td> ${value.breakfastFoodList} </td>
+          <td> ${value.lunchFoodList} </td>                        
+          <td> ${value.dinnerFoodList} </td>                        
         </tr>            
          `
-      });
-      $('#information').html(info);
-    });
-}
+      $('#information').html(info)
+    },
+    );
+};
 
 $(document).ready(function () {
-  findMenu();
+  findMenu('2fe16309-1120-4ca2-93c4-5a4c424e5661');
 });
+
+function convertDateToString(date) {
+  const d = new Date(date)
+  var curr_date = d.getDate();
+  var curr_month = d.getMonth() + 1; //Months are zero based
+  var curr_year = d.getFullYear();
+  return curr_date + "/" + curr_month + "/" + curr_year
+}

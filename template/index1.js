@@ -1,70 +1,200 @@
-const host = 'http://localhost:3000'
-axios.get(host + '/api/parent/student', {
+
+axios.get('http://localhost:8082/parent/getChildStudentInfor', {
   headers: { Authorization: 'Bearer ' + localStorage.token }
 }).then(result => {
-  if (result.data.status === 'ok') {
-    const student = result.data.student;
-    const teacher = student.teacher;
-    console.log(result.data);
+  if (true) {
+    console.log(result.data.data);
+    let dataStudent = result.data.data
     let infoStudent = " ";
-    const parent = result.data.parent
-    let infoParent = " ";
+    localStorage.setItem('parentID', dataStudent.parentID);
+    localStorage.setItem('studentName', dataStudent.studentName);
+    localStorage.setItem('classID', dataStudent.classID);
+
+
 
     infoStudent += `
-                <div class="col-lg-4 grid-margin">
-                <div style=";">
-                  <img style=";width: 240px;height: 240px; margin-top: 0px ;margin-left: 90px;border-radius: 10%;" src="${student.avatar}" alt="">
+    
+    <div class="content-wrapper">
+
+      <div class="row">
+        <div class="col-lg-4">
+          <div class="card mb-4">
+            <div class="card-body text-center">
+              <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp" alt="avatar"
+                class="rounded-circle img-fluid" style="width: 150px;">
+              <h5 class="my-3">${dataStudent.studentName}</h5>
+                
+
+            </div>
+          </div>
+          <div >
+            <div class="card-body p-0">
+              <ul class="list-group list-group-flush rounded-3">
+
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-8">
+          <div class="card mb-1">
+            <div class="card-body">
+              <div class="row">
+                <div class="col-sm-3">
+                  <p class="mb-0">Họ tên học sinh :</p>
+
+                </div>
+                <div class="col-sm-9">
+                  <p class="text-muted mb-0">${dataStudent.studentName}</p>
                 </div>
               </div>
+              <hr>
+              <div class="row">
+                <div class="col-sm-3">
+                  <p class="mb-0">Ngày sinh :</p>
+                </div>
+                <div class="col-sm-9">
+                  <p class="text-muted mb-0">${convertDateToString(dataStudent.dateOfBirth)}</p>
+                </div>
+              </div>
+              <hr>
+              <div class="row">
+                <div class="col-sm-3">
+                  <p class="mb-0">Giới tính</p>
+                </div>
+                <div class="col-sm-9">
+                  <p class="text-muted mb-0">${convertGender(dataStudent.studentGender)}</p>
+                </div>
+              </div>
+              <hr>
+              <div class="row">
+                <div class="col-sm-3">
+                  <p class="mb-0">Lớp học :</p>
+                </div>
+                <div class="col-sm-9">
+                  <p class="text-muted mb-0">Lớp lá</p>
+                </div>
+              </div>
+              <hr>
+            
               
-              <div class="col-lg-7 grid-margin style = "postion:absolute"  " style="margin-top : 20px ">             
-                <div class="card">
-                
-                <div class = "card-body" >
-                <h3 class="card-title" style = "margin-left : 40px" > Thông tin học sinh </h3>
-                  <ul style="margin-top: px;">
-                  <li>Họ và tên : ${student.name} </li>
-                  <li>Ngày sinh : ${convertDateToString(student.birth)}</li>
-                  <li>Mã học sinh : ${student._id}</li>
-                  <li>Lớp : ${teacher.className}</li>                                    
-                  <li> Địa chỉ : ${result.data.parent.address} </li>                   
-                  <li>Giới tính : ${student.sex}</li>                   
-                  </ul>
-                </div>
-                </div>             
-              </div>
-              <div class="col-lg-6 grid-margin style = "postion:absolute"  " style="margin-top : 20px ">             
-                <div class="card">
-                
-                <div class = "card-body" >
-                <h3 class="card-title" style = "margin-left : 40px" > Thông tin phụ huynh </h3>
-                  <ul style="margin-top: 20px;">
-                    <li >Họ và tên : ${parent.name} </li>
-                    <li >Ngày sinh : ${convertDateToString(parent.birth)}</li>
-                    <li>Điện thoại :${parent.phoneNumber}</li>
-                    <li>Giới tính : ${parent.sex}</li>
-                    <li> Địa chỉ : ${result.data.parent.address} </li>                   
-                  </ul>
-                </div>
-                </div>             
-              </div>
-              <div class="col-lg-6 grid-margin style = "postion:absolute" " style="margin-top : 20px ">             
-                <div class="card">
-                
-                <div class = "card-body" >
-                <h3 style = "margin-left : 40px;" class="card-title"  > Thông tin giáo viên </h3>
-                  <ul style="margin-top: 20px;">
-                    <li >Họ và tên giáo viên : ${teacher.name} </li>
-                    <li >Ngày sinh : ${convertDateToString(teacher.birth)}</li>
-                    <li>Điện thoại :${teacher.phoneNumber}</li>
-                    <li>Giới tính : ${teacher.sex}</li>
-                    <li>Lớp: ${teacher.className} </li>     
-                </div>                
-                  </ul>
-                </div>             
-              </div>                                                
+            </div>
+          </div>
+
+
+        </div>
+        <!-- content-wrapper ends -->
+
+        <!-- partial -->
+                                                     
                  `
     $('#studentInformation').html(infoStudent);
+
+
+
+
+  }
+})
+
+axios.get('http://localhost:8082/parent/getParent', {
+  headers: { Authorization: 'Bearer ' + localStorage.token },
+  params: { parentID: localStorage.getItem('parentID') }
+}).then(result => {
+  if (true) {
+
+    console.log(result.data.data)
+    let dataParent = result.data.data
+    let infoParent = " ";
+
+
+
+    infoParent += `
+    
+    
+
+    <div class="content-wrapper">
+
+    <div class="row">
+      <div class="col-lg-4">
+        <div class="card mb-4">
+          <div class="card-body text-center">
+            <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp" alt="avatar"
+              class="rounded-circle img-fluid" style="width: 150px;">
+            <h5 class="my-3">${dataParent.parentName}</h5>
+              
+
+          </div>
+        </div>
+        <div >
+          <div class="card-body p-0">
+            <ul class="list-group list-group-flush rounded-3">
+
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-8">
+        <div class="card mb-1">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0">Họ tên phụ huynh :</p>
+
+              </div>
+              <div class="col-sm-9">
+                <p class="text-muted mb-0"> ${dataParent.parentName}</p>
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0">Ngày sinh : </p>
+              </div>
+              <div class="col-sm-9">
+                <p class="text-muted mb-0">${convertDateToString(dataParent.parentDob)}</p>
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0">Giới tính</p>
+              </div>
+              <div class="col-sm-9">
+                <p class="text-muted mb-0">${convertGender(dataParent.parentGender)}</p>
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0">Địa chỉ :</p>
+              </div>
+              <div class="col-sm-9">
+                <p class="text-muted mb-0">${dataParent.parentAddress}</p>
+              </div>
+            </div>
+            <hr>
+            <hr>
+            <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0">Email</p>
+              </div>
+              <div class="col-sm-9">
+                <p class="text-muted mb-0">${dataParent.parentEmail}</p>
+              </div>
+            </div>
+            <hr>
+          
+            
+          </div>
+        </div>
+
+
+      </div>
+      <!-- content-wrapper ends -->
+
+      <!-- partial -->
+                                                     
+                 `
+    $('#parentInformation').html(infoParent);
 
 
 
@@ -80,7 +210,13 @@ function convertDateToString(date) {
   var curr_year = d.getFullYear();
   return curr_date + "/" + curr_month + "/" + curr_year
 }
-
+function convertGender(gender) {
+  if (gender == "0") return "Nam";
+  else return "Nữ";
+}
+function getToken() {
+  console.log(localStorage.getItem('token'));
+}
 
 
 

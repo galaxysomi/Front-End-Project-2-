@@ -92,14 +92,6 @@
           <span class="nav-link">Chức năng</span>
         </li>
         <li class="nav-item menu-items">
-          <a class="nav-link" href="../QLHocPhi/QLHocPhi.html">
-            <span class="menu-icon">
-              <i class="mdi mdi-playlist-play"></i>
-            </span>
-            <span class="menu-title">Quản lý học phí</span>
-          </a>
-        </li>
-        <li class="nav-item menu-items">
           <a class="nav-link" href="../QLHocSinh/QLHocSinh.html">
             <span class="menu-icon">
               <i class="mdi mdi-table-large"></i>
@@ -123,9 +115,9 @@
             </span>
             <span class="menu-title">Thông báo</span>
           </a>
-          <input id="invisibleID" style="visibility: hidden">
         </li>
     </nav>
+
     <!-- partial -->
     <div class="container-fluid page-body-wrapper">
       <!-- partial:../../partials/_navbar.html -->
@@ -173,6 +165,10 @@
               <div class="card">
                 <div class="card-body">
                   <h4 class="card-title">Danh sách học sinh</h4>
+                  <button onclick="clearFieldAdd()" style="margin-top: 50px; margin-left: 75%; margin-bottom: 50px;"
+                    type="button" class="btn btn-success" data-toggle="modal" data-target="#addStudent">
+                    Thêm mới
+                  </button>
                   <div class="table-responsive">
                     <table class="table table-bordered">
                       <colgroup>
@@ -188,13 +184,11 @@
                           <th> STT </th>
                           <th> Họ tên </th>
                           <th> Ngày sinh</th>
-
                           <th> Giới tính </th>
                           <th> Tên phụ huynh </th>
                           <th> Ngày sinh phụ huynh</th>
                           <th> Số diện thoại </th>
-                          <th> Giới tính </th>
-
+                          <th> Giới tính phụ huynh </th>
                           <th> Chức năng </th>
                         </tr>
                       </thead>
@@ -202,10 +196,7 @@
 
                       </tbody>
                     </table>
-                    <button onclick="clearFieldAdd()" style="margin-top: 50px; margin-left: 75%; margin-bottom: 50px;"
-                      type="button" class="btn btn-success" data-toggle="modal" data-target="#addStudent">
-                      Thêm mới
-                    </button>
+
 
                   </div>
                 </div>
@@ -227,7 +218,7 @@
         <div class="modal-dialog" role="document">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Thêm </h5>
+              <h5 class="modal-title" id="exampleModalLabel">Thêm học sinh </h5>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
@@ -236,57 +227,61 @@
               <form class="forms-sample">
                 <div class="form-group">
                   <label for="exampleInputName1">Họ tên học sinh</label>
-                  <input type="text" class="form-control" id="name">
+                  <input type="text" class="form-control" id="studentName">
                 </div>
                 <div class="form-group">
                   <label for="">
                     <h4>Ngày tháng năm sinh : </h4>
                   </label>
-                  <input style="border-radius: 7px;" type="date" id="birth">
+                  <input style="border-radius: 7px;" type="date" id="dateOfBirth">
                 </div>
                 <div class="form-group">
                   <label for="exampleInputEmail3">Giới tính học sinh</label>
-                  <select class="form-control" id="sex">
-                    <option>Nam</option>
-                    <option>Nữ</option>
+                  <select class="form-control" id="studentGender">
+                    <option value="0">Nam</option>
+                    <option value="1">Nữ</option>
                   </select>
                 </div>
                 <div class="form-group">
-                  <label for="exampleInputName1">Ảnh học sinh</label>
-                  <input type="file" class="form-control" id="file">
+                  <label for="exampleInputEmail3">Lớp học</label>
+                  <select class="form-control" id="classID">
+                    <option value="267312fe-c252-4a58-a748-acc68a5b085a">Lớp lá</option>
+                    <option value="4cab4674-e0f0-404d-b133-771e43b6b4d1">Lớp mầm</option>
+                    <option value="1755dc64-e739-4e7e-862e-c7938a089b10">Lớp lá</option>
+                    <option value="99982b0a-23d5-44e5-a56d-4808c63f26d4">Lớp chồi 2</option>
+                    <option value="b6d87dc8-e015-49f1-897e-be2a34df1d4a">Lớp chồi 1</option>
+                    <option value="a2470681-fbe0-4be7-b175-9fb1eb8f0469">Lớp chồi 2</option>
+                    <option value="9d51122a-94ce-4d97-b6a7-ebe22625a6e6">Lớp mầm</option>
+                    <option value="389bed03-d82a-43be-8ce2-7fdbb46f8509">Test Class</option>
+                    <option value="b71a548e-0059-44a4-9d5c-af7117a4d5d1">Lớp mới</option>
+
+
+                  </select>
                 </div>
                 <div class="form-group">
                   <label for="exampleSelectGender">Họ tên phụ huynh</label>
-                  <input type="" class="form-control" id="nameParent">
+                  <input type="" class="form-control" id="parentName">
                 </div>
                 <div class="form-group">
                   <label for="">
                     <h4>Ngày tháng năm sinh </h4>
                   </label>
-                  <input style="border-radius: 7px;" type="date" id="birthParent">
+                  <input style="border-radius: 7px;" type="date" id="parentDob">
                 </div>
                 <div class="form-group">
-                  <label for="exampleInputEmail3">Giới tính</label>
-                  <select class="form-control" id="sexParent">
-                    <option>Nam</option>
-                    <option>Nữ</option>
+                  <label for="exampleInputEmail3">Giới tính phụ huynh</label>
+                  <select class="form-control" id="parentGender">
+                    <option value="0">Nam</option>
+                    <option value="1">Nữ</option>
                   </select>
                 </div>
                 <div class="form-group">
                   <label for="exampleInputPassword4">Địa chỉ</label>
-                  <input type="" class="form-control" id="address">
+                  <input type="" class="form-control" id="parentAddress">
                 </div>
                 <div class="form-group">
-                  <label for="exampleInputPassword4">Số điện thoại</label>
-                  <input type="" class="form-control" id="phoneNumber">
-                </div>
-                <div class="form-group">
-                  <label for="exampleInputPassword4">Tên đăng nhập</label>
-                  <input type="" class="form-control" id="username">
-                </div>
-                <div class="form-group">
-                  <label for="exampleInputPassword4">Mật khẩu</label>
-                  <input type="" class="form-control" id="password">
+                  <label for="exampleInputPassword4">Gmail :</label>
+                  <input type="" class="form-control" id="parentEmail">
                 </div>
               </form>
 
@@ -294,7 +289,7 @@
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-              <button type="button" onclick="addStudent()" class="btn btn-primary">Save changes</button>
+              <button type="button" onclick="addNewStudent()" class="btn btn-primary">Save changes</button>
             </div>
           </div>
         </div>
@@ -315,54 +310,38 @@
               <form class="forms-sample">
                 <div class="form-group">
                   <label for="exampleInputName1">Họ tên học sinh</label>
-                  <input type="text" class="form-control" id="changeName">
+                  <input type="text" class="form-control" id="changeStudentName">
                 </div>
                 <div class="form-group">
                   <label for="">
                     <h4>Ngày tháng năm sinh : </h4>
                   </label>
-                  <input style="border-radius: 7px;" type="date" id="changeBirth">
+                  <input style="border-radius: 7px;" type="date" id="changeStudentBirth">
                 </div>
                 <div class="form-group">
                   <label for="exampleInputEmail3">Giới tính học sinh</label>
-                  <select class="form-control" id="changeSex">
-                    <option>Nam</option>
-                    <option>Nữ</option>
+                  <select class="form-control" id="changeStudentGender">
+                    <option value="0">Nam</option>
+                    <option value="1">Nữ</option>
                   </select>
                 </div>
                 <div class="form-group">
-                  <label for="exampleSelectGender">Họ tên phụ huynh</label>
-                  <input type="" class="form-control" id="changeNameParent">
-                </div>
-                <div class="form-group">
-                  <label for="">
-                    <h4>Ngày tháng năm sinh </h4>
-                  </label>
-                  <input style="border-radius: 7px;" type="date" id="changeBirthParent" name="">
-                </div>
-                <div class="form-group">
-                  <label for="exampleInputEmail3">Giới tính phụ huynh</label>
-                  <select class="form-control" id="changeSexParent">
-                    <option>Nam</option>
-                    <option>Nữ</option>
+                  <label for="exampleInputEmail3">Lớp học</label>
+                  <select class="form-control" id="changeClass">
+                    <option value="267312fe-c252-4a58-a748-acc68a5b085a">Lớp lá</option>
+                    <option value="4cab4674-e0f0-404d-b133-771e43b6b4d1">Lớp mầm</option>
+                    <option value="1755dc64-e739-4e7e-862e-c7938a089b10">Lớp lá</option>
+                    <option value="99982b0a-23d5-44e5-a56d-4808c63f26d4">Lớp chồi 2</option>
+                    <option value="b6d87dc8-e015-49f1-897e-be2a34df1d4a">Lớp chồi 1</option>
+                    <option value="a2470681-fbe0-4be7-b175-9fb1eb8f0469">Lớp chồi 2</option>
+                    <option value="9d51122a-94ce-4d97-b6a7-ebe22625a6e6">Lớp mầm</option>
+                    <option value="389bed03-d82a-43be-8ce2-7fdbb46f8509">Test Class</option>
+                    <option value="b71a548e-0059-44a4-9d5c-af7117a4d5d1">Lớp mới</option>
+
                   </select>
                 </div>
-                <div class="form-group">
-                  <label for="exampleInputPassword4">Địa chỉ phụ huynh</label>
-                  <input type="" class="form-control" id="changeAddress">
-                </div>
-                <div class="form-group">
-                  <label for="exampleInputPassword4">Số điện thoại phụ huynh</label>
-                  <input type="" class="form-control" id="changePhoneNumber">
-                </div>
-                <div class="form-group">
-                  <label for="exampleInputPassword4">Tên đăng nhập</label>
-                  <input type="" class="form-control" id="changeUsername">
-                </div>
-                <div class="form-group">
-                  <label for="exampleInputPassword4">Mật khẩu</label>
-                  <input type="" class="form-control" id="changePassword">
-                </div>
+                <input id="invisibleID" style="visibility: hidden">
+                <input id="parentID" style="visibility: hidden">
               </form>
             </div>
             <div class="modal-footer">

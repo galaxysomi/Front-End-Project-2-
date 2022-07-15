@@ -91,14 +91,6 @@
           <span class="nav-link">Chức năng</span>
         </li>
         <li class="nav-item menu-items">
-          <a class="nav-link" href="../QLHocPhi/QLHocPhi.html">
-            <span class="menu-icon">
-              <i class="mdi mdi-playlist-play"></i>
-            </span>
-            <span class="menu-title">Quản lý học phí</span>
-          </a>
-        </li>
-        <li class="nav-item menu-items">
           <a class="nav-link" href="../QLHocSinh/QLHocSinh.html">
             <span class="menu-icon">
               <i class="mdi mdi-table-large"></i>
@@ -123,6 +115,7 @@
             <span class="menu-title">Thông báo</span>
           </a>
         </li>
+        <input id="invisibleID" style="visibility: hidden">
 
 
     </nav>
@@ -172,114 +165,199 @@
           <div class="col-12 grid-margin stretch-card">
             <div class="card">
               <div class="card-body">
-                <h4 class="card-title">Thêm mới hoạt động</h4>
-                <form class="forms-sample">
 
-                  <div class="form-group">
-                    <label>Thời gian bắt đầu</label>
-                    <input type="time" class="form-control" id="start">
-                  </div>
-                  <div class="form-group">
-                    <label>Thời gian kết thúc</label>
-                    <input type="time" class="form-control" id="end">
-                  </div>
-                  <div class="form-group">
-                    <label>Hoạt động</label>
-                    <input class="form-control" id="content">
-                  </div>
-
-                  <button type="button" onclick="addActivity()" class="btn btn-primary mr-2">Submit</button>
-                  <button class="btn btn-dark">Cancel</button>
                 </form>
-              </div>
-            </div>
-          </div>
-          <form style="margin-left: 30px; margin-top: 60px;" class="forms-sample">
-            <div class="form-group">
-              <label for="">
-                <h4>Chọn ngày : </h4>
-              </label>
-              <input style="border-radius: 7px;" type="date" id="date" name="">
-              <button type="button" onclick="findActivityByDate()" class="btn btn-primary mr-2">Submit</button>
-            </div>
-          </form>
-          <div class="col-lg-12 grid-margin stretch-card">
-            <div class="card">
-              <div class="card-body">
-                <h4 class="card-title">Các hoạt động</h4>
-                <div class="table-responsive">
-                  <table class="table table-bordered">
-                    <colgroup>
-                      <col width="60" span="1">
-                      <col width="50" span="1">
-                      <col width="450" span="1">
-                      <col width="200" span="1">
-                      <col width="auto" span="1">
-                    </colgroup>
-                    <thead>
-                      <tr>
-                        <th> Ngày </th>
-                        <th> Giờ</th>
-                        <th> Hoạt động</th>
-                        <th> Chức năng</th>
+                <div class="col-lg-12 grid-margin stretch-card">
+                  <div class="card">
+                    <div class="card-body">
+                      <h4 class="card-title">Thời khoá biểu</h4>
+                      <button onclick="clearFieldAdd()" style="margin-top: 50px; margin-left: 75%; margin-bottom: 50px;"
+                        type="button" class="btn btn-success" data-toggle="modal" data-target="#addTimeTable">
+                        Thêm mới
+                      </button>
+                      <div class="table-responsive">
+                        <table class="table table-bordered">
+                          <colgroup>
+                            <col width="60" span="1">
+                            <col width="50" span="1">
+                            <col width="450" span="1">
+                            <col width="200" span="1">
+                            <col width="auto" span="1">
+                          </colgroup>
+                          <thead>
+                            <tr>
+                              <th> Thời gian </th>
+                              <th> Môn học</th>
+                              <th> Lớp học</th>
+                              <th> Chức năng</th>
 
-                      </tr>
-                    </thead>
-                    <tbody id="information">
+                            </tr>
+                          </thead>
+                          <tbody id="information">
 
-                    </tbody>
-                  </table>
+                          </tbody>
+                        </table>
 
+                      </div>
+                    </div>
+                  </div>
                 </div>
+
+
+                <input style="visibility: hidden;" id="invisibleID">
+
+
+                <!-- modal -->
+                <div class="modal fade" id="addTimeTable" tabindex="-1" role="dialog"
+                  aria-labelledby="exampleModalLabel" aria-hidden="true">
+                  <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Thêm TKB </h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <div class="modal-body">
+                        <form class="forms-sample">
+                          <div class="form-group">
+                            <label for="exampleInputName1">Môn học</label>
+                            <input type="text" class="form-control" id="Subject">
+                          </div>
+
+                          <div class="form-group">
+                            <label for="exampleInputEmail3">Thời gian :</label>
+                            <select class="form-control" id="Day">
+                              <option value="2">Thứ 2</option>
+                              <option value="3">Thứ 3</option>
+                              <option value="4">Thứ 4</option>
+                              <option value="5">Thứ 5</option>
+                              <option value="6">Thứ 6</option>
+                              <option value="7">Thứ 7</option>
+                            </select>
+                          </div>
+                          <div class="form-group">
+                            <label for="exampleInputEmail3">Lớp học</label>
+                            <select class="form-control" id="Class">
+                              <option value="267312fe-c252-4a58-a748-acc68a5b085a">Lớp lá</option>
+                              <option value="4cab4674-e0f0-404d-b133-771e43b6b4d1">Lớp mầm</option>
+                              <option value="1755dc64-e739-4e7e-862e-c7938a089b10">Lớp lá</option>
+                              <option value="99982b0a-23d5-44e5-a56d-4808c63f26d4">Lớp chồi 2</option>
+                              <option value="b6d87dc8-e015-49f1-897e-be2a34df1d4a">Lớp chồi 1</option>
+                              <option value="a2470681-fbe0-4be7-b175-9fb1eb8f0469">Lớp chồi 2</option>
+                              <option value="9d51122a-94ce-4d97-b6a7-ebe22625a6e6">Lớp mầm</option>
+                              <option value="389bed03-d82a-43be-8ce2-7fdbb46f8509">Test Class</option>
+                              <option value="b71a548e-0059-44a4-9d5c-af7117a4d5d1">Lớp mới</option>
+
+                            </select>
+                          </div>
+
+                        </form>
+
+
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" onclick="changeTimeTable()" class="btn btn-primary">Save changes</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- modal sửa -->
+                <div class="modal fade" id="changeTimeTable" tabindex="-1" role="dialog"
+                  aria-labelledby="exampleModalLabel" aria-hidden="true">
+                  <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Sửa </h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <div class="modal-body">
+                        <form class="forms-sample">
+                          <div class="form-group">
+                            <label for="exampleInputName1">Môn học</label>
+                            <input type="text" class="form-control" id="changeSubject">
+                          </div>
+
+                          <div class="form-group">
+                            <label for="exampleInputEmail3">Thời gian :</label>
+                            <select class="form-control" id="changeDay">
+                              <option value="">Thứ 2</option>
+                              <option value="">Thứ 3</option>
+                              <option value="">Thứ 4</option>
+                              <option value="">Thứ 5</option>
+                              <option value="">Thứ 6</option>
+                              <option value="">Thứ 7</option>
+                            </select>
+                          </div>
+                          <div class="form-group">
+                            <label for="exampleInputEmail3">Lớp học</label>
+                            <select class="form-control" id="changeClass">
+                              <option value="267312fe-c252-4a58-a748-acc68a5b085a">Lớp lá</option>
+                              <option value="4cab4674-e0f0-404d-b133-771e43b6b4d1">Lớp mầm</option>
+                              <option value="1755dc64-e739-4e7e-862e-c7938a089b10">Lớp lá</option>
+                              <option value="99982b0a-23d5-44e5-a56d-4808c63f26d4">Lớp chồi 2</option>
+                              <option value="b6d87dc8-e015-49f1-897e-be2a34df1d4a">Lớp chồi 1</option>
+                              <option value="a2470681-fbe0-4be7-b175-9fb1eb8f0469">Lớp chồi 2</option>
+                              <option value="9d51122a-94ce-4d97-b6a7-ebe22625a6e6">Lớp mầm</option>
+                              <option value="389bed03-d82a-43be-8ce2-7fdbb46f8509">Test Class</option>
+                              <option value="b71a548e-0059-44a4-9d5c-af7117a4d5d1">Lớp mới</option>
+
+                            </select>
+                          </div>
+
+                        </form>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" onclick=" changeStudentById()">Save
+                          changes</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+
+                <!-- content-wrapper ends -->
+
+                <!-- partial -->
               </div>
+              <!-- main-panel ends -->
             </div>
+            <!-- page-body-wrapper ends -->
           </div>
+          <!-- container-scroller -->
+          <!-- plugins:js -->
+          <script src="../../assets/vendors/js/vendor.bundle.base.js"></script>
+          <!-- endinject -->
+          <!-- Plugin js for this page -->
+          <!-- End plugin js for this page -->
+          <!-- inject:js -->
+          <script src="../../assets/js/off-canvas.js"></script>
+          <script src="../../assets/js/hoverable-collapse.js"></script>
+          <script src="../../assets/js/misc.js"></script>
+          <script src="../../assets/js/settings.js"></script>
+          <script src="../../assets/js/todolist.js"></script>
+          <!-- endinject -->
+          <!-- Custom js for this page -->
+          <!-- End custom js for this page -->
+          <script src="./QLthoikhoabieu.js">
 
-
-          <input style="visibility: hidden;" id="invisibleID">
-
-
-          <!-- end modal -->
-
-
-
-          <!-- content-wrapper ends -->
-
-          <!-- partial -->
-        </div>
-        <!-- main-panel ends -->
-      </div>
-      <!-- page-body-wrapper ends -->
-    </div>
-    <!-- container-scroller -->
-    <!-- plugins:js -->
-    <script src="../../assets/vendors/js/vendor.bundle.base.js"></script>
-    <!-- endinject -->
-    <!-- Plugin js for this page -->
-    <!-- End plugin js for this page -->
-    <!-- inject:js -->
-    <script src="../../assets/js/off-canvas.js"></script>
-    <script src="../../assets/js/hoverable-collapse.js"></script>
-    <script src="../../assets/js/misc.js"></script>
-    <script src="../../assets/js/settings.js"></script>
-    <script src="../../assets/js/todolist.js"></script>
-    <!-- endinject -->
-    <!-- Custom js for this page -->
-    <!-- End custom js for this page -->
-    <script src="./QLthoikhoabieu.js">
-
-    </script>
-    <script src="../../assets/vendors/jquery/jquery-3.2.1.min.js"></script>
-    <!--===============================================================================================-->
-    <script src="../../assets/vendors/bootstrap1/js/bootstrap.js"></script>
-    <script src="../../assets/vendors/bootstrap1/js/bootstrap.min.js"></script>
-    <!--===============================================================================================-->
-    <script src="../../assets/vendors/select2/select2.min.js"></script>
-    <script>
-      function deleteItem() {
-        localStorage.removeItem("token");
-      }
-    </script>
+          </script>
+          <script src="../../assets/vendors/jquery/jquery-3.2.1.min.js"></script>
+          <!--===============================================================================================-->
+          <script src="../../assets/vendors/bootstrap1/js/bootstrap.js"></script>
+          <script src="../../assets/vendors/bootstrap1/js/bootstrap.min.js"></script>
+          <!--===============================================================================================-->
+          <script src="../../assets/vendors/select2/select2.min.js"></script>
+          <script>
+            function deleteItem() {
+              localStorage.removeItem("token");
+            }
+          </script>
 </body>
 </body>
 

@@ -194,10 +194,10 @@
         }
         ).then(rs => {
             if (true) {
-                localStorage.setItem('token', rs.data.token);
+                localStorage.setItem('token', rs.headers.authorization);
                 window.location = "/template/PageTeacher/QLHocSinh/QLHocSinh.html"
                 console.log('Login OK, hello parrent')
-                console.log(localStorage.token)
+                console.log(localStorage.getItem("token"))
             } else if (rs.data.msg === "teacher not found") {
                 alert("Tên đăng nhập hoặc mật khẩu không đùng")
             }

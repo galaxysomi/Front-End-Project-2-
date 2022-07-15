@@ -1,29 +1,68 @@
-function findClass() {
-    axios.get("http://localhost:8082/admin/getClasses", {
-        headers: { Authorization: localStorage.getItem("token") }
-    })  // dien link api vao
+async function findClass() {
+
+    axios
+        .get("http://localhost:8082/admin/getClasses", {
+            headers: { Authorization: localStorage.getItem("token") }
+        })  // dien link api vao day
         .then((data) => {
-            console.log(data);
             let info = " ";
-            $.each(data.data.data, function (index, value) {
-                info += `
+            let num = 0;
+            const getTeacherName = data.data.data
+            $.each(getTeacherName, async function (index, value) {
+                await getTeacherByTeacherId(value.teacherID).then(data => {
+                    console.log(data)
+                    info += `
             <tr>
-              <td> ${index + 1} </td>
-              <td> ${value.parentName} </td>
-              <td> ${value.className}</td>
-              <td> ${value.parentAge}</td>      
+            ${num += 1}
+              <td> ${num} </td>
+              <td> ${data[0].teacherName} </td>
+              <td> ${value.className}</td> 
+              <td>${data[1].numberOfStudent}</td>}                             
               <td>
-              <button onClick="getTeacherById('${value.parent_id}')" style="margin-top: 20px;" type="button" class="btn btn-primary" data-toggle="modal" data-target="#changeTeacher">
-              Sửa
-              </button>
-              <button type="button" onClick = "deleteTeacher('${value.parent_id}')"style="margin-top: 20px;" type="button" class="btn btn-danger">Xóa</button>  
+              <button type="button" onClick = "deleteClass('${value.classID}')" class="btn btn-danger">Xóa</button>  
+              
+              <button   type="button" class="btn btn-success"><a href="./classInfo.html?${value.classID}"> Xem danh sách</a></button>  
+              
               </td>                   
             </tr>            
              `
-            });
-            $('#information').html(info);
+                        ;
+                })
+                $('#information').html(info);
+            })
         });
 }
+
+function getClassByTeacherID(id) {
+    const res = axios.get('http://localhost:8082/getClassByTeacher', {
+        headers: { Authorization: localStorage.getItem("token") },
+        params: { teacherID: id }
+    })
+    return res;
+}
+
+console.log(getClassByTeacherID("111852d2-415e-4915-b949-4c2cf0d3a439"))
+
+async function getTeacherByTeacherId(id) {
+    const res = await axios.get('http://localhost:8082/admin/getTeacher/', {
+        headers: { Authorization: 'Bearer ' + localStorage.token },
+        params: { teacherID: id }
+    })
+    let data = await res.data.data;
+    return data;
+}
+
+async function getClassInfo(id) {
+    const res = await axios.get('http://localhost:8082/student/getAllStudentsInClass', {
+        headers: { Authorization: localStorage.getItem("token") },
+        params: { classID: id }
+    })
+    let data = await res.data.data;
+    return data;
+}
+
+
+
 
 $(document).ready(findClass());
 
@@ -33,17 +72,10 @@ function refreshPage() {
 }
 
 
-function addTeacher() {
-    axios.post('http://localhost:3000/api/admin/teacher', {
-        name: document.getElementById("name").value,
-        birth: document.getElementById("birth").value,
-        sex: document.getElementById("sex").value,
-        username: document.getElementById("uername").value,
-        password: document.getElementById("password").value,
-        password2: document.getElementById("password2").value,
+function addClass() {
+    axios.post('http://localhost:8082/admin/addNewClass/', {
         className: document.getElementById("className").value,
-        phoneNumber: document.getElementById("phoneNumber").value,
-        numStudent: document.getElementById("numStudent").value,
+        teacherID: document.getElementById("teacherID").value,
     }, {
         headers: { Authorization: 'Bearer ' + localStorage.token }
     })
@@ -58,12 +90,13 @@ function addTeacher() {
         })
 }
 
-function deleteTeacher(id) {
-    axios.delete('http://localhost:3000/api/admin/teacher/' + id, {
-        headers: { Authorization: 'Bearer ' + localStorage.token }
+function deleteClass(id) {
+    axios.delete('http://localhost:8082/admin/deleteClass/', {
+        headers: { Authorization: 'Bearer ' + localStorage.token },
+        params: { classID: id }
     })
         .then((rs) => {
-            alert('Bạn có muốn xóa giáo viên này không?')
+            alert('Bạn có muốn xóa lớp học này không?')
             if (rs.data.success) {
                 alert(rs.data.message)
                 refreshPage();

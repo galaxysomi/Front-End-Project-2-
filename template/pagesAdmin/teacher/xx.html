@@ -1,0 +1,137 @@
+<div class="modal fade" id="changeTeacher" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Sửa giáo viên</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form class="forms-sample">
+                    <div class="form-group">
+                        <label for="exampleInputEmail3">Họ tên:</label>
+                        <input type="" class="form-control" id="changeName">
+                        <div class="form-group">
+                            <label for="exampleInputEmail3">Giới tính:</label>
+                            <select class="form-control" id="changeGender">
+                                <option>0</option>
+                                <option>1</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputEmail3">Ngày Sinh:</label>
+                            <input type="" class="form-control" id="Dob">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputEmail3">Số điện thoại:</label>
+                            <input type="" class="form-control" id="Number">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputName1"> Địa chỉ:</label>
+                            <input type="" class="form-control" id="Address">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputName1">Email</label>
+                            <input type="" class="form-control" id="Mail">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputName1">Chủ nhiệm môn</label>
+                            <input type="" class="form-control" id="Subject">
+                        </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" onclick=addTeacher() class="btn btn-primary">Thêm mới</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- modal sửa -->
+<div class="modal fade" id="changeTeacher1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Sửa </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form class="forms-sample">
+                    <div class="form-group">
+                        <label for="exampleInputEmail3">Họ tên:</label>
+                        <input type="" class="form-control" id="changeName">
+                        <div class="form-group">
+                            <label for="exampleInputEmail3">Giới tính:</label>
+                            <select class="form-control" id="changeGender">
+                                <option>0</option>
+                                <option>1</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputEmail3">Ngày Sinh:</label>
+                            <input type="date" class="form-control" id="changeDob">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputEmail3">Số điện thoại:</label>
+                            <input type="" class="form-control" id="changeNumber">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputName1"> Địa chỉ:</label>
+                            <input type="" class="form-control" id="changeAddress">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputName1">Email</label>
+                            <input type="" class="form-control" id="changeMail">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputName1">Chủ nhiệm môn</label>
+                            <input type="" class="form-control" id="changeSubject">
+                        </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" onclick=changeTeacherByID() class="btn btn-primary">Save
+                    changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- modal xóa -->
+<div class="modal fade" id="deleteTeacher" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Xoá giáo viên</h5>
+            </div>
+            <div class="modal-body">
+                <form class="forms-sample">
+                    <div class="form-group">
+                        <label for="exampleSelectGender">Bạn có muốn xóa Xoá Giáo viên này không ?</label>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" onclick=deleteTeacherOnClick() class="btn btn-danger">Xóa giáo
+                    viên</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- partial -->
+</div>
+<!-- main-panel ends -->
+</div>
+<!-- page-body-wrapper ends -->
+</div>

@@ -1,21 +1,26 @@
-function findTeacher() {
+
+
+async function findTeacher() {
     axios.get("http://localhost:8082/admin/getAllTeachers", {
         headers: { Authorization: localStorage.getItem("token") }
     })  // dien link api vao
         .then((teacher) => {
             console.log(teacher);
             let info = " ";
-            $.each(teacher.data.data, function (index, value) {
-                info += `
+            let num = 0;
+            $.each(teacher.data.data, async function (index, value) {
+                await getClassByTeacherID(value.teacherID).then(data => {
+                    info += `
             <tr>
-              <td> ${index + 1} </td>
+            ${num++}
+              <td> ${num} </td>
               <td> ${value.teacherName} </td>
-              <td> ${value.teacherGender}</td>
-              <td> ${value.teacherDob}</td>
+              <td> ${converGender(value.teacherGender)}</td>
+              <td> ${convertDateToString(value.teacherDob)}</td>
               <td> ${value.teacherPhoneNumber}</td>
               <td> ${value.teacherAddress}</td>
               <td> ${value.teacherEmail}</td>
-              <td> ${value.teacherAddress}</td>
+              <td> ${checkClass(data.className)}</td>
               <td> ${value.subject}</td>
               <td>
               <button onClick="getTeacherById('${value.teacherID}')" style="margin-top: 20px;" type="button" class="btn btn-primary" data-toggle="modal" data-target="#changeTeacher">
@@ -27,23 +32,53 @@ function findTeacher() {
               </td>                                
             </tr>            
              `
-            });
-            $('#information').html(info);
+                        ;
+                })
+                    .catch(err => {
+                        console.log(err);
+                    })
+                $('#information').html(info);
+            })
         });
 }
 
 $(document).ready(findTeacher());
 
-function deleteTeacherOnClick(id) {
-    deleteTeacher(id);
-    alert("Xóa thành công");
-    refreshPage()
+function convertDateToString(date) {
+    const d = new Date(date)
+    var curr_date = d.getDate();
+    var curr_month = d.getMonth() + 1; //Months are zero based
+    var curr_year = d.getFullYear();
+    return curr_date + "/" + curr_month + "/" + curr_year
 }
+
+function converGender(gender) {
+    if (gender == 0) return "Nam";
+    else return "Nữ";
+}
+function deleteTeacherOnClick(id) {
+    if (confirm("Bạn muốn xoá giáo viên này không ?")) {
+        deleteTeacher(id);
+    }
+}
+async function getClassByTeacherID(id) {
+    const res = await axios.get('http://localhost:8082/getClassByTeacher', {
+        headers: { Authorization: localStorage.getItem("token") },
+        params: { teacherID: id }
+    })
+    let data = await res.data.data;
+    return data;
+}
+
+
 
 function refreshPage() {
     window.location.reload();
 }
-
+function checkClass(className) {
+    if (className == null) return "Chưa có lớp";
+    else return className;
+}
 
 function addTeacher() {
 
@@ -79,11 +114,8 @@ function deleteTeacher(id) {
         params: { teacherID: id }
     })
         .then((rs) => {
-            alert('Bạn có muốn xóa giáo viên này không?')
-            if (rs.data.success) {
-                alert(rs.data.message)
-                refreshPage();
-            } else {
+
+            if (true) {
                 alert(rs.data.message)
                 refreshPage();
             }
@@ -96,14 +128,14 @@ function getTeacherById(id) {
         params: { teacherID: id }
     }).then(data => {
         console.log(data.data.data);
-        document.getElementById("changeName").value = data.data.data.teacherName;
-        document.getElementById("changeDob").value = data.data.data.teacherDob;
-        document.getElementById("changeSubject").value = data.data.data.subject;
-        document.getElementById("changeNumber").value = data.data.data.teacherPhoneNumber;
-        document.getElementById("changeGender").value = data.data.data.teacherGender;
-        document.getElementById("changeAddress").value = data.data.data.teacherAddress;
-        document.getElementById("changeMail").value = data.data.data.teacherEmail;
-        document.getElementById("invisibleID").value = data.data.data.teacherID;
+        document.getElementById("changeName").value = data.data.data[0].teacherName;
+        document.getElementById("changeDob").value = data.data.data[0].teacherDob;
+        document.getElementById("changeSubject").value = data.data.data[0].subject;
+        document.getElementById("changeNumber").value = data.data.data[0].teacherPhoneNumber;
+        document.getElementById("changeGender").value = data.data.data[0].teacherGender;
+        document.getElementById("changeAddress").value = data.data.data[0].teacherAddress;
+        document.getElementById("changeMail").value = data.data.data[0].teacherEmail;
+        document.getElementById("invisibleID").value = data.data.data[0].teacherID;
     })
 }
 
@@ -134,4 +166,8 @@ function changeTeacherByID() {
             refreshPage();
         })
 
+}
+
+function getToken() {
+    return localStorage.getItem("token");
 }

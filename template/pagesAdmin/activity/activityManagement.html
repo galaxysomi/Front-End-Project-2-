@@ -127,6 +127,14 @@
             </span>
             <span class="menu-title">Hoạt động</span>
           </a>
+        </li>
+        <li class="nav-item menu-items">
+          <a class="nav-link" href="../../pagesAdmin/tution/Tution.html">
+            <span class="menu-icon">
+              <i class="mdi mdi-chart-bar"></i>
+            </span>
+            <span class="menu-title">Học phí</span>
+          </a>
           <input id="invisibleID" style="visibility: hidden">
         </li>
 
@@ -189,6 +197,10 @@
                   <h4 class="card-title">Hoạt động</h4>
 
                   <div class="table-responsive">
+                    <button style="margin-top: 20px; margin-bottom: 20px;" type="button" class="btn btn-success"
+                      data-toggle="modal" data-target="#addActivity">
+                      Thêm mới
+                    </button>
                     <table class="table table-bordered">
                       <colgroup>
                         <col width="80" span="1">
@@ -206,18 +218,15 @@
                           <th> Thời gian</th>
                           <th> Hoạt động</th>
                           <th> Chi Tiết</th>
-                          <th> Địa điểm </th>
-                          <th> ID</th>
+                          <th> Ghi chú </th>
+                          <th> Chức năng</th>
                         </tr>
                         </tr>
                       </thead>
                       <tbody id="information">
                       </tbody>
                     </table>
-                    <button style="margin-top: 20px;" type="button" class="btn btn-success" data-toggle="modal"
-                      data-target="#addActivity">
-                      Thêm mới
-                    </button>
+
                   </div>
                 </div>
               </div>
@@ -244,30 +253,23 @@
                     <label for="">
                       <h4>Chọn ngày :</h4>
                     </label>
-                    <input style="border-radius: 7px;" type="date" id="Date" name="">
-                  </div>
-                  <div class="form-group">
-                    <label for="appt">Thời gian bắt đầu:</label>
-                    <input type="" placeholder="Giờ:phút" id="timeStart" required>
-                  </div>
-                  <div class="form-group">
-                    <label for="appt">Thời gian kết thúc:</label>
-                    <input type="" placeholder="Giờ:phút" id="timeFinish" name="" required>
-                  </div>
-                  <div class="form-group">
-                    <label for="exampleInputEmail3">Hoạt động</label>
-                    <input type="" class="form-control" id="title">
-                  </div>
-                  <div class="form-group">
-                    <label for="exampleInputPassword4">Chi tiết</label>
-                    <input type="" class="form-control" id="description">
-                  </div>
-                  <div class="form-group">
-                    <label for="exampleInputPassword4">Địa điểm</label>
-                    <input type="" class="form-control" id="place">
+                    <input style="border-radius: 7px;" type="date" id="activityTime" name="">
                   </div>
 
-                  <button type="submit" onclick=addMenu() class="btn btn-primary mr-2">Submit</button>
+                  <div class="form-group">
+                    <label for="exampleInputEmail3">Tên đặt động</label>
+                    <input type="" class="form-control" id="activityName">
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleInputPassword4">Ghi chú</label>
+                    <input type="" class="form-control" id="activityNote">
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleInputPassword4">Chi Tiết</label>
+                    <input type="" class="form-control" id="activityContent">
+                  </div>
+
+                  <button type="submit" onclick=addActivity() class="btn btn-primary mr-2">Submit</button>
                   <button class="btn btn-dark">Cancel</button>
                 </form>
               </div>
@@ -290,30 +292,24 @@
                 <form class="forms-sample">
                   <div class="form-group">
                     <label for="">
-                      <h4>Chọn ngày : </h4>
+                      <h4>Chọn ngày :</h4>
                     </label>
-                    <input style="border-radius: 7px;" type="date" id="updateDate" name="">
+                    <input style="border-radius: 7px;" type="date" id="changeActivityTime" name="">
+                  </div>
+
+                  <div class="form-group">
+                    <label for="exampleInputEmail3">Tên đặt động</label>
+                    <input type="" class="form-control" id="changeActivityName">
                   </div>
                   <div class="form-group">
-                    <label for="exampleInputName1">Thời gian bắt đầu</label>
-                    <input type="" class="form-control" id="updateTimeStart">
+                    <label for="exampleInputPassword4">Ghi chú</label>
+                    <input type="" class="form-control" id="changeActivityNote">
                   </div>
                   <div class="form-group">
-                    <label for="exampleInputEmail3">Thời gian kết thúc</label>
-                    <input type="" class="form-control" id="updateTimeFinish">
+                    <label for="exampleInputPassword4">Nội dung</label>
+                    <input type="" class="form-control" id="changeActivityContent">
                   </div>
-                  <div class="form-group">
-                    <label for="exampleInputPassword4">Hoạt động</label>
-                    <input type="" class="form-control" id="updateTitle">
-                  </div>
-                  <div class="form-group">
-                    <label for="exampleInputPassword4">Mô tả hoạt động</label>
-                    <input type="" class="form-control" id="updateDescription">
-                  </div>
-                  <div class="form-group">
-                    <label for="exampleSelectGender">Địa điểm</label>
-                    <input type="" id="updatePlace" class="form-control">
-                  </div>
+
                 </form>
               </div>
               <div class="modal-footer">
@@ -349,9 +345,6 @@
             </div>
           </div>
         </div>
-        <h2>Remove Item</h2>
-
-        <p>Click the button to delete the item:</p>
 
 
 

@@ -32,13 +32,13 @@ function findMenu() {
       $.each(foods.data.data, function (index, value) {
         info += `
             <tr>            
-              <td> ${value.dateFood}</td>            
+              <td> ${convertDateToString(value.dateFood)}</td>            
               <td> ${value.breakfastFoodList} </td>
               <td> ${value.lunchFoodList} </td>                        
               <td> ${value.dinnerFoodList}</td>               
               <td>
-                      <button onClick = "getMenuById('${value.foodMenuID}')"  
-                      style="margin-top: 20px;" type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteFood">
+                      <button onClick = "deleteMenuOnClick('${value.foodMenuID}')"  
+                      style="margin-top: 20px;" type="button" class="btn btn-danger"  data-target="#deleteFood">
                         Xóa
                       </button>  
               </td>            
@@ -48,35 +48,26 @@ function findMenu() {
       $('#information').html(info);
     });
 }
-var getUrlParameter = function getUrlParameter(sParam) {
-  var sPageURL = window.location.search.substring(1),
-    sURLVariables = sPageURL.split('&'),
-    sParameterName,
-    i;
-
-  for (i = 0; i < sURLVariables.length; i++) {
-    sParameterName = sURLVariables[i].split('=');
-
-    if (sParameterName[0] === sParam) {
-      return sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);
-    }
-  }
-  return false;
-};
 
 $(document).ready(function () {
   findMenu();
 });
 
-function deleteMenu() {
-  const id = document.getElementById("invisibleID").value;
+function deleteMenuOnClick(menuId) {
+  if (confirm("Bạn có chắc chắn muốn xóa menu này không?")) {
+    deleteMenu(menuId);
+  }
+}
+
+function deleteMenu(id) {
+
   axios.delete('http://localhost:8082/foodMenu/deleteFoodMenu', {
     headers: { Authorization: localStorage.getItem("token") },
     params: { foodMenuID: id }
   })
     .then((rs) => {
       console.log(rs);
-      if (rs.data.success) {
+      {
         alert("Xóa menu thành công")
         refreshPage();
       }
@@ -84,11 +75,11 @@ function deleteMenu() {
 }
 
 function addMenu() {
-  axios.post('http://localhost:3000/api/admin/foodmenu/add', {
-    date: document.getElementById("date").value,
-    monChinh: document.getElementById("monChinh").value,
-    monDiemTam: document.getElementById("monTrua").value,
-    quaChieu: document.getElementById("quaChieu").value
+  axios.post('http://localhost:8082/foodMenu/addFoodMenu', {
+    dateFood: document.getElementById("date").value,
+    breakfastFoodList: document.getElementById("monChinh").value,
+    lunchFoodList: document.getElementById("monTrua").value,
+    dinnerFoodList: document.getElementById("quaChieu").value
   }, {
     headers: { Authorization: 'Bearer ' + localStorage.token }
   })
@@ -114,6 +105,13 @@ function themMoiOnClick() {
 
   addMenu();
 
+}
+function convertDateToString(date) {
+  const d = new Date(date)
+  var curr_date = d.getDate();
+  var curr_month = d.getMonth() + 1; //Months are zero based
+  var curr_year = d.getFullYear();
+  return curr_date + "/" + curr_month + "/" + curr_year
 }
 
 

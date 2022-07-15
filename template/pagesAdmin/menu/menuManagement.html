@@ -130,7 +130,15 @@
             <span class="menu-title">Hoạt động</span>
           </a>
         </li>
-        <input id="invisibleID" style="visibility:hidden">
+        <li class="nav-item menu-items">
+          <a class="nav-link" href="../../pagesAdmin/tution/Tution.html">
+            <span class="menu-icon">
+              <i class="mdi mdi-chart-bar"></i>
+            </span>
+            <span class="menu-title">Học phí</span>
+          </a>
+          <input id="invisibleID" style="visibility: hidden">
+        </li>
 
 
 
@@ -197,6 +205,10 @@
                 </div>
 
                 <div class="table-responsive">
+                  <button style="margin-top: 20px; margin-bottom: 20px;" type="button" class="btn btn-success"
+                    data-toggle="modal" data-target="#addMenu">
+                    Thêm mới
+                  </button>
                   <table class="table table-bordered">
                     <colgroup>
                       <col width="60" span="1">
@@ -219,10 +231,7 @@
                     <tbody id="information">
                     </tbody>
                   </table>
-                  <button style="margin-top: 20px;" type="button" class="btn btn-success" data-toggle="modal"
-                    data-target="#addActivity">
-                    Thêm mới
-                  </button>
+
                 </div>
               </div>
             </div>
@@ -233,12 +242,12 @@
 
       <!-- modal -->
       <!-- modal add -->
-      <div class="modal fade" id="addActivity" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+      <div class="modal fade" id="addMenu" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
         <div class="modal-dialog" role="document">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Xóa hoạt động</h5>
+              <h5 class="modal-title" id="exampleModalLabel">Thêm thực đơn</h5>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
@@ -263,7 +272,7 @@
                   <label for="exampleInputEmail3">Quà chiều</label>
                   <input type="" class="form-control" id="quaChieu">
                 </div>
-                <button type="button" onclick=themMoiOnClick() class="btn btn-primary mr-2">Submit</button>
+                <button type="button" onclick=addMenu() class="btn btn-primary mr-2">Submit</button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
               </form>
             </div>

@@ -1,17 +1,19 @@
 function getActivityById(id) {
-  axios.get('http://localhost:8082/getActivities' + id, {
-    //headers: { Authorization: 'Bearer ' + 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImF1dGhvcml0aWVzIjpbeyJhdXRob3JpdHkiOiJzdHVkZW50OndyaXRlIn0seyJhdXRob3JpdHkiOiJzdHVkZW50OnJlYWQifSx7ImF1dGhvcml0eSI6ImNvdXJzZTpyZWFkIn0seyJhdXRob3JpdHkiOiJST0xFX0FETUlOIn0seyJhdXRob3JpdHkiOiJjb3Vyc2U6d3JpdGUifV0sImlhdCI6MTY1NDQwMzg2MSwiZXhwIjoxNjU1MjI2MDAwfQ.OcykgC36hwVb7gRWlnvxdiGqL3Viq6RZog9emJXbRJaKMqpOmGyUl4IVB5j9DKBBEAk91bVywawMnWEXJBsO_w' }
+  axios.get('http://localhost:8082/getActivity', {
+    headers: { Authorization: localStorage.getItem("token") },
+    params: { activityID: id }
   }).then(data => {
-    //document.getElementById("changeDate").value = data.data.date ;
-    document.getElementById("updateTitle").value = data.data.activityName;
-    document.getElementById("updateDescription").value = data.data.activityContent;
-    // document.getElementById("updateTimeStart").value = data.data.timeStart;
-    document.getElementById("invisibleID").value = activityID;
-    document.getElementById("updateTimeFinish").value = data.data.activityTime;
-    document.getElementById("updatePlace").value = data.data.activityNote;
+    console.log(data.data.data);
+    document.getElementById("changeActivityTime").value = convertDateToString(data.data.data.activityTime);
+    document.getElementById("changeActivityName").value = data.data.data.activityName;
+    document.getElementById("changeActivityNote").value = data.data.data.activityNote;
+    document.getElementById("changeActivityContent").value = data.data.data.activityContent;
+    document.getElementById("invisibleID").value = data.data.data.activityID;
+
 
   })
 }
+
 
 
 function refreshPage() {
@@ -34,41 +36,36 @@ function findActivity() {
         info += `
           <tr>
            
-            <td> ${value.activityTime}  </td>
+            <td> ${convertDateToString(value.activityTime)}  </td>
             <td> ${value.activityName}</td>  
             <td> ${value.activityContent}</td>                        
             <td> ${value.activityNote}</td>
 
             <td>
-            <button onClick="getActivityById('${value._id}')" type="button" class="btn btn-primary" data-toggle="modal" data-target="#changeActivity">
+            <button onClick="getActivityById('${value.activityID}')" type="button" class="btn btn-primary" data-toggle="modal" data-target="#changeActivity">
             Sửa
           </button>
-          <button  onClick="getActivityById('${value._id}')"  type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteActivity">
+          <button  onClick="deleteActivityOnClick('${value.activityID}')"  type="button" class="btn btn-danger"  data-target="#deleteActivity">
             Xóa
           </button>
-          <button  onClick="thongBao('${value._id}')"  type="button" class="btn btn-success" ">
-            Gửi thông báo
-          </button>
-          <button   type="button" class="btn btn-success" ">
-          <a href="../registerActivity/QLYregisterActivity.html?${value._id}"> Xem danh sách</a>
-          </button>
+            
           </td>        
           </tr>            
            `;
-        console.log(value._id);
+
       });
       $('#information').html(info);
     });
 }
 
-function addMenu() {
-  axios.post('http://localhost:3000/api/admin/activities', {
-    date: document.getElementById("Date").value,
-    description: document.getElementById("description").value,
-    title: document.getElementById("title").value,
-    timeStart: document.getElementById("timeStart").value,
-    timeFinish: document.getElementById("timeFinish").value,
-    place: document.getElementById("place").value
+function addActivity() {
+  axios.post('http://localhost:8082/addNewActivity/', {
+    // date: document.getElementById("Date").value,
+    activityName: document.getElementById("activityName").value,
+    activityTime: document.getElementById("activityTime").value,
+    activityContent: document.getElementById("activityContent").value,
+    activityNote: document.getElementById("activityNote").value,
+
   }, {
     headers: { Authorization: 'Bearer ' + localStorage.token }
   })
@@ -80,15 +77,17 @@ function addMenu() {
       }
       //refreshPage();               
     })
+  console.log(document.getElementById("activityNote").value);
 }
 
-function deleteActivity() {
-  const id = document.getElementById("invisibleID").value
-  axios.delete('http://localhost:3000/api/admin/activities/' + id, {
-    headers: { Authorization: 'Bearer ' + localStorage.token }
+function deleteActivity(id) {
+  // const id = document.getElementById("invisibleID").value
+  axios.delete('http://localhost:8082/deleteActivity/', {
+    headers: { Authorization: localStorage.getItem("token") },
+    params: { activityID: id }
   })
     .then((rs) => {
-      console.log(rs);
+
       if (rs.data.success) {
         alert(rs.data.message)
         refreshPage()
@@ -97,6 +96,12 @@ function deleteActivity() {
         refreshPage()
       }
     })
+
+}
+function deleteActivityOnClick(id) {
+  if (confirm("Bạn có chắc chắn muốn xóa hoạt động này không?")) {
+    deleteActivity(id);
+  }
 }
 
 // $(document).ready(function () {
@@ -109,39 +114,27 @@ $(document).ready(findActivity());
 function changeAcivityByID() {
   const id = document.getElementById("invisibleID").value
   console.log(id);
-  axios.put('http://localhost:3000/api/admin/activities/' + id, {
-    date: document.getElementById("updateDate").value,
-    title: document.getElementById("updateTitle").value,
-    description: document.getElementById("updateDescription").value,
-    timeStart: document.getElementById("updateTimeStart").value,
-    timeFinish: document.getElementById("updateTimeFinish").value,
-    place: document.getElementById("updatePlace").value
+  axios.post('http://localhost:8082/addNewActivity/' + id, {
+    activityName: document.getElementById("changeActivityName").value,
+    activityNote: document.getElementById("changeActivityNote").value,
+    activityContent: document.getElementById("changeActivityContent").value,
+    activityTime: document.getElementById("changeActivityTime").value,
+
   }, {
     headers: { Authorization: 'Bearer ' + localStorage.token }
   })
     .then((rs) => {
-      if (rs.data.success) {
+      if (true) {
         alert(rs.data.message);
-        refreshPage()
-      } else {
-        alert(rs.data.message)
         refreshPage()
       }
     })
 }
+function convertDateToString(date) {
+  const d = new Date(date)
+  var curr_date = d.getDate();
+  var curr_month = d.getMonth() + 1; //Months are zero based
+  var curr_year = d.getFullYear();
+  return curr_date + "/" + curr_month + "/" + curr_year
+}
 
-// function thongBao(id) {
-//   console.log(id);
-//   axios.get('http://localhost:8082/api/admin/activities/sendnoti/'+id, {
-//     headers: { Authorization: 'Bearer ' + localStorage.token }
-//   })
-//     .then((rs) => {
-//       console.log(rs);
-//       if (rs.data.status==="ok") {
-//         alert(rs.data.msg);
-//       } else {
-//         alert(rs.data.msg);
-//       }
-//       //refreshPage();
-//     })
-// }

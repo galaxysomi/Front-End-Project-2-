@@ -13,7 +13,7 @@ function getTuitionByMonth() {
       console.log(localStorage.getItem('studentName'));
       if (true) {
 
-        const hocphi = rs.data.data;
+        const hocphi = rs.data.data[0];
 
         let tuition = " ";
 
